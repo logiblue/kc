@@ -320,10 +320,10 @@ template {
   --indigo: #6610f2;
   --purple: yellow;
   --pink: #e83e8c;
-  --red: #dc3545;
+  --red: red;
   --orange: #fd7e14;
   --yellow: #ffc107;
-  --green: #28a745;
+  --green: green;
   --teal: #20c997;
   --cyan: #17a2b8;
   --white: #fff;
@@ -331,10 +331,10 @@ template {
   --gray-dark: #343a40;
   --primary: #303030;
   --secondary: #6c757d;
-  --success: #28a745;
+  --success: green;
   --info: #17a2b8;
   --warning: #ffc107;
-  --danger: #dc3545;
+  --danger: red;
   --light: #f8f9fa;
   --dark: #343a40;
   --breakpoint-xs: 0;
@@ -444,21 +444,21 @@ template {
 .table-success,
 .table-success > th,
 .table-success > td {
-  background-color: #c3e6cb;
+  background-color: #b8dbb8;
 }
 .table-success th,
 .table-success td,
 .table-success thead th,
 .table-success tbody + tbody {
-  border-color: #8fd19e;
+  border-color: #7abd7a;
 }
 
 .table-hover .table-success:hover {
-  background-color: #b1dfbb;
+  background-color: #a7d2a7;
 }
 .table-hover .table-success:hover > td,
 .table-hover .table-success:hover > th {
-  background-color: #b1dfbb;
+  background-color: #a7d2a7;
 }
 
 .table-info,
@@ -504,21 +504,21 @@ template {
 .table-danger,
 .table-danger > th,
 .table-danger > td {
-  background-color: #f5c6cb;
+  background-color: #ffb8b8;
 }
 .table-danger th,
 .table-danger td,
 .table-danger thead th,
 .table-danger tbody + tbody {
-  border-color: #ed969e;
+  border-color: #ff7a7a;
 }
 
 .table-hover .table-danger:hover {
-  background-color: #f1b0b7;
+  background-color: #ff9f9f;
 }
 .table-hover .table-danger:hover > td,
 .table-hover .table-danger:hover > th {
-  background-color: #f1b0b7;
+  background-color: #ff9f9f;
 }
 
 .table-light,
@@ -845,12 +845,12 @@ mark,
 
 .has-red-color,
 .has-red-color:visited {
-  color: #dc3545;
+  color: red;
 }
 
 .has-red-background-color {
-  background-color: #dc3545;
-  border-color: #dc3545;
+  background-color: red;
+  border-color: red;
 }
 
 .has-orange-color,
@@ -875,12 +875,12 @@ mark,
 
 .has-green-color,
 .has-green-color:visited {
-  color: #28a745;
+  color: green;
 }
 
 .has-green-background-color {
-  background-color: #28a745;
-  border-color: #28a745;
+  background-color: green;
+  border-color: green;
 }
 
 .has-teal-color,
@@ -955,12 +955,12 @@ mark,
 
 .has-success-color,
 .has-success-color:visited {
-  color: #28a745;
+  color: green;
 }
 
 .has-success-background-color {
-  background-color: #28a745;
-  border-color: #28a745;
+  background-color: green;
+  border-color: green;
 }
 
 .has-info-color,
@@ -985,12 +985,12 @@ mark,
 
 .has-danger-color,
 .has-danger-color:visited {
-  color: #dc3545;
+  color: red;
 }
 
 .has-danger-background-color {
-  background-color: #dc3545;
-  border-color: #dc3545;
+  background-color: red;
+  border-color: red;
 }
 
 .has-light-color,

@@ -5,9 +5,11 @@ html{
 	font-family: Sofia Pro;
 }
 .header {
+	background-color: $main-bg;
+	padding: 5rem 0;
 	.logo {
 		height: auto;
-		width: 5rem;
+		width: 10rem;
 	}
 	#header-menu {
 		display: flex;
@@ -19,7 +21,9 @@ html{
 		display: flex;
 		justify-content: space-between;
 	}
-
+	li{
+		margin-left: 1.5rem;
+	}
 
 	a {
 		font-size: 1.7rem;

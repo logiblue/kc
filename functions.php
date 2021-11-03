@@ -1,45 +1,88 @@
 <?php
 /**
- * UnderStrap functions and definitions
- *
- * @package Understrap
+ * Set up theme defaults and registers support for various WordPress feaures.
  */
+add_action( 'after_setup_theme', function() {
+	load_theme_textdomain( 'bathe', get_theme_file_uri( 'languages' ) );
 
-// Exit if accessed directly.
-defined( 'ABSPATH' ) || exit;
+	add_theme_support( 'automatic-feed-links' );
+	add_theme_support( 'title-tag' );
+	add_theme_support( 'post-thumbnails' );
+	add_theme_support( 'html5', array(
+		'search-form',
+		'comment-form',
+		'comment-list',
+		'gallery',
+		'caption',
+	) );
+	add_theme_support( 'post-formats', array(
+		'aside',
+		'image',
+		'video',
+		'quote',
+		'link',
+	) );
+	add_theme_support( 'custom-background', apply_filters( 'bathe_custom_background_args', array(
+		'default-color' => 'ffffff',
+		'default-image' => '',
+	) ) );
 
-// UnderStrap's includes directory.
-$understrap_inc_dir = 'inc';
+	// Add theme support for selective refresh for widgets.
+	add_theme_support( 'customize-selective-refresh-widgets' );
 
-// Array of files to include.
-$understrap_includes = array(
-	'/theme-settings.php',                  // Initialize theme default settings.
-	'/setup.php',                           // Theme setup and custom theme supports.
-	'/widgets.php',                         // Register widget area.
-	'/enqueue.php',                         // Enqueue scripts and styles.
-	'/template-tags.php',                   // Custom template tags for this theme.
-	'/pagination.php',                      // Custom pagination for this theme.
-	'/hooks.php',                           // Custom hooks.
-	'/extras.php',                          // Custom functions that act independently of the theme templates.
-	'/customizer.php',                      // Customizer additions.
-	'/custom-comments.php',                 // Custom Comments file.
-	'/class-wp-bootstrap-navwalker.php',    // Load custom WordPress nav walker. Trying to get deeper navigation? Check out: https://github.com/understrap/understrap/issues/567.
-	'/editor.php',                          // Load Editor functions.
-	'/block-editor.php',                    // Load Block Editor functions.
-	'/deprecated.php',                      // Load deprecated functions.
-);
+	/**
+	 * Add support for core custom logo.
+	 *
+	 * @link https://codex.wordpress.org/Theme_Logo
+	 */
+	add_theme_support( 'custom-logo', array(
+		'height'      => 200,
+		'width'       => 50,
+		'flex-width'  => true,
+		'flex-height' => true,
+	) );
 
-// Load WooCommerce functions if WooCommerce is activated.
-if ( class_exists( 'WooCommerce' ) ) {
-	$understrap_includes[] = '/woocommerce.php';
-}
+	register_nav_menus( array(
+		'primary' => __( 'Primary Menu', 'bathe' ),
+	) );
+} );
 
-// Load Jetpack compatibility file if Jetpack is activiated.
-if ( class_exists( 'Jetpack' ) ) {
-	$understrap_includes[] = '/jetpack.php';
-}
+/**
+ * Set the content width in pixels, based on the theme's design and stylesheet.
+ *
+ * Priority 0 to make it available to lower priority callbacks.
+ *
+ * @global int $content_width
+ */
+add_action( 'after_setup_theme', function() {
+	$GLOBALS['content_width'] = apply_filters( 'bathe_content_width', 960 );
+}, 0 );
 
-// Include files.
-foreach ( $understrap_includes as $file ) {
-	require_once get_theme_file_path( $understrap_inc_dir . $file );
-}
+/**
+ * Register widget area.
+ */
+add_action( 'widgets_init', function() {
+	register_sidebar( array(
+		'name'          => __( 'Sidebar', 'bathe' ),
+		'id'            => 'sidebar-1',
+		'description'   => '',
+		'before_widget' => '<section id="%1$s" class="widget %2$s">',
+		'after_widget'  => '</section>',
+		'before_title'  => '<h2 class="widget-title">',
+		'after_title'   => '</h2>',
+	) );
+} );
+
+/**
+ * Enqueue scripts and styles.
+ */
+add_action( 'wp_enqueue_scripts', function() {
+
+	wp_enqueue_style( 'bathe-main', get_theme_file_uri( 'assets/css/main.css' ) );
+
+	wp_enqueue_script( 'bathe-bundle', get_theme_file_uri( 'assets/js/bundle.js' ), array(), null, true );
+
+	if ( is_singular() && comments_open() && get_option( 'thread_comments' ) ) {
+		wp_enqueue_script( 'comment-reply' );
+	}
+} );

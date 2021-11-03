@@ -1,0 +1,24 @@
+@use '../global' as *;
+
+
+.header {
+	.logo {
+		height: auto;
+		width: 10rem;
+	}
+
+	&-container {
+		align-items: center;
+		display: flex;
+		justify-content: space-between;
+	}
+
+	.header-menu {
+		display: flex;
+		flex-direction: row;
+	}
+
+	a {
+		font-size: 1.5rem;
+	}
+}

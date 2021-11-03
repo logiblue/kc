@@ -1,69 +1,106 @@
 {
-  "name": "understrap",
-  "version": "1.0.1",
-  "description": "WordPress Theme framework",
-  "main": "index.js",
-  "scripts": {
-    "bs": "browser-sync start --config src/build/browser-sync.config.js",
-    "css": "npm-run-all css-compile css-postcss css-minify",
-    "css-compile": "sass --style expanded --source-map --embed-sources --no-error-css --quiet src/sass/theme.scss:css/theme.css src/sass/custom-editor-style.scss:css/custom-editor-style.css",
-    "css-minify": "cleancss -O1 --format breakWith=lf --with-rebase --source-map --source-map-inline-sources --output css/ --batch --batch-suffix \".min\" \"css/*.css\" \"!css/*.min.css\" \"!css/*rtl*.css\"",
-    "css-postcss": "postcss --config src/build/postcss.config.js --replace \"css/*.css\" \"!css/*.rtl*.css\" \"!css/*.min.css\"",
-    "js": "npm-run-all js-compile js-minify",
-    "js-compile": "rollup --config src/build/rollup.config.js --sourcemap",
-    "js-minify": "terser  --config-file src/build/terser.config.json --output js/theme.min.js js/theme.js",
-    "watch": "npm-run-all --parallel watch-run-*",
-    "watch-bs": "npm-run-all --parallel bs watch-run-*",
-    "watch-run-css": "nodemon --watch sass/ --ext scss --exec \"npm-run-all css\"",
-    "watch-run-js": "nodemon --watch src/js/ --ext js --exec \"npm-run-all js\"",
-    "copy-assets": "node src/build/copy-assets.js",
-    "dist": "npm-run-all --parallel css js"
+  "name": "bathe",
+  "version": "1.1.1",
+  "description": "The simplest WordPress starter theme including full setup for Sass, PostCSS, Autoprefixer, stylelint, Webpack, ESLint, imagemin, Browsersync, etc.",
+  "browserslist": [
+    "> 1%",
+    "last 2 versions",
+    "Firefox ESR"
+  ],
+  "config": {
+    "browsersync": {
+      "proxy": "localhost:10064",
+      "port": 3000
+    },
+    "image": {
+      "src": "assets/_src/images",
+      "dist": "assets/images"
+    },
+    "js": {
+      "entry": "assets/_src/js/bundle.js",
+      "output": "assets/js/bundle.js"
+    },
+    "css": {
+      "src": "assets/_src/sass",
+      "dist": "assets/css",
+      "style": "compressed",
+      "map": "--map"
+    }
   },
-  "engines": {
-    "node": "^12 || >=14"
+  "scripts": {
+    "dev": "npm-run-all -p imagemin sass webpack -p browser watch",
+    "browser": "cross-conf-env browser-sync \"http://$npm_package_config_browsersync_proxy\" -f \"**/*.php\" \"$npm_package_config_css_dist\" \"$npm_package_config_js_output\" \"$npm_package_config_image_dist\" --port $npm_package_config_browsersync_port",
+    "build": "run-p imagemin sass webpack",
+    "imagemin": "cross-conf-env node imagemin \"$npm_package_config_image_src/**/*\" $npm_package_config_image_dist",
+    "presass": "cross-conf-env stylelint \"$npm_package_config_css_src/**/*\" --fix",
+    "sass": "cross-conf-env sass $npm_package_config_css_src:$npm_package_config_css_dist --style=compressed",
+    "postsass": "cross-conf-env postcss $npm_package_config_css_dist/*.css --use=autoprefixer --dir=$npm_package_config_css_dist $npm_package_config_css_map",
+    "webpack": "cross-conf-env webpack $npm_package_config_js_entry -o $npm_package_config_js_output",
+    "watch:imagemin": "cross-conf-env onchange \"$npm_package_config_image_src/**/*\" -e \".DS_Store\" -- npm run imagemin",
+    "watch:sass": "cross-conf-env onchange \"$npm_package_config_css_src/**/*\" -e \".DS_Store\" -- npm run sass",
+    "watch:webpack": "npm run webpack -- --watch",
+    "watch": "run-p watch:*"
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/understrap/understrap.git"
+    "url": "https://github.com/wp-bathe/bathe.git"
   },
   "keywords": [
-    "wordpress",
-    "theme",
-    "framework",
-    "bootstrap",
-    "underscores"
+    "WordPress",
+    "Browsersync",
+    "Sass",
+    "PostCSS",
+    "Autoprefixer",
+    "imagemin",
+    "Webpack",
+    "stylelint",
+    "ESLint"
   ],
-  "author": "The UnderStrap Authors (https://github.com/understrap/understrap/graphs/contributors)",
-  "license": "GPL-2.0",
+  "author": "Kite",
+  "license": "GPL-2.0+",
   "bugs": {
-    "url": "https://github.com/understrap/understrap/issues"
+    "url": "https://github.com/wp-bathe/bathe/issues"
   },
-  "homepage": "https://understrap.com",
-  "dependencies": {
-    "terser": "^5.7.1"
+  "homepage": "https://github.com/wp-bathe/bathe",
+  "engines": {
+    "node": ">= 12.0.0",
+    "npm": ">= 6.9.0"
   },
   "devDependencies": {
-    "@babel/core": "^7.15.0",
-    "@babel/preset-env": "^7.15.0",
-    "@rollup/plugin-babel": "^5.3.0",
-    "@rollup/plugin-commonjs": "^20.0.0",
-    "@rollup/plugin-multi-entry": "^4.1.0",
-    "@rollup/plugin-node-resolve": "^13.0.4",
-    "autoprefixer": "^10.3.2",
-    "bootstrap": "^4.6.0",
-    "browser-sync": "^2.27.5",
-    "browserslist": "^4.16.8",
-    "caniuse-lite": "^1.0.30001251",
-    "clean-css-cli": "^5.3.3",
-    "del": "^6.0.0",
-    "font-awesome": "^4.7.0",
-    "nodemon": "^2.0.12",
+    "@babel/core": "^7.8.7",
+    "@babel/preset-env": "^7.8.7",
+    "@ixkaito/imagemin": "^0.1.0",
+    "@typescript-eslint/eslint-plugin": "^3.10.1",
+    "@typescript-eslint/parser": "^3.10.1",
+    "autoprefixer": "^9.7.4",
+    "babel-loader": "^8.0.6",
+    "browser-sync": "^2.26.7",
+    "cross-conf-env": "^1.2.1",
+    "css-loader": "^3.4.2",
+    "eslint": "^6.8.0",
+    "eslint-config-google": "^0.14.0",
+    "eslint-loader": "^3.0.3",
+    "globby": "^11.0.0",
+    "imagemin-gifsicle": "^7.0.0",
+    "imagemin-jpegtran": "^6.0.0",
+    "imagemin-optipng": "^7.1.0",
+    "imagemin-svgo": "^7.1.0",
+    "mini-css-extract-plugin": "^0.9.0",
     "npm-run-all": "^4.1.5",
-    "popper.js": "^1.16.1",
-    "postcss": "^8.3.6",
-    "postcss-cli": "^8.3.1",
-    "postcss-understrap-palette-generator": "git+https://github.com/bacoords/postcss-understrap-palette-generator.git",
-    "rollup": "^2.56.2",
-    "sass": "^1.38.1"
+    "onchange": "^6.1.0",
+    "postcss-cli": "^7.1.0",
+    "postcss-loader": "^3.0.0",
+    "sass": "^1.26.2",
+    "sass-loader": "^8.0.2",
+    "style-loader": "^1.1.3",
+    "stylelint": "^13.2.0",
+    "stylelint-config-sass-guidelines": "^7.0.0",
+    "ts-loader": "^8.0.3",
+    "typescript": "^4.0.2",
+    "webpack": "^4.42.0",
+    "webpack-cli": "^3.3.11"
+  },
+  "dependencies": {
+    "foundation-sites": "^6.7.3"
   }
 }

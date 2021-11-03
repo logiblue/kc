@@ -1,10 +1,17 @@
 @use '../global' as *;
+/* stylelint-disable */
 
-
+html{
+	font-family: Sofia Pro;
+}
 .header {
 	.logo {
 		height: auto;
-		width: 10rem;
+		width: 5rem;
+	}
+	#header-menu {
+		display: flex;
+		justify-content: space-between;
 	}
 
 	&-container {
@@ -13,12 +20,11 @@
 		justify-content: space-between;
 	}
 
-	.header-menu {
-		display: flex;
-		flex-direction: row;
-	}
 
 	a {
-		font-size: 1.5rem;
+		font-size: 1.7rem;
+		color: #000;
+		font-family: Sofia Pro;
 	}
 }
+
